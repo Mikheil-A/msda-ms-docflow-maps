@@ -1,25 +1,43 @@
-import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { fromEvent } from 'rxjs/internal/observable/fromEvent';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cadastral-entity',
   templateUrl: './cadastral-entity.component.html',
-  styleUrls: ['./cadastral-entity.component.scss']
+  styleUrls: ['./cadastral-entity.component.scss'],
 })
-export class CadastralEntityComponent implements OnInit {
+export class CadastralEntityComponent implements OnInit, AfterViewInit {
   cadastralEntityForm: FormGroup;
 
-  constructor() { }
+  @ViewChild('cadastralCodeInputField') cadastralCodeInputField: ElementRef;
+
+  constructor() {}
 
   ngOnInit(): void {
     this._initializeForm();
   }
 
+  ngAfterViewInit() {
+    console.log(222, this.cadastralCodeInputField.nativeElement);
+    this.cadastralCodeInputField.nativeElement.focus();
+
+    fromEvent(this.cadastralCodeInputField.nativeElement, 'keyup')
+      .pipe(debounceTime(1000))
+      .subscribe(() => {
+        console.log(
+          'this.cadastralCodeInputField.nativeElement.value',
+          this.cadastralCodeInputField.nativeElement.value
+        );
+      });
+  }
+
   private _initializeForm() {
     this.cadastralEntityForm = new FormGroup({
-      'cadastralCode': new FormControl(null, Validators.required),
-      'address': new FormControl(null, Validators.required),
-      'landType': new FormControl(null, Validators.required)
+      cadastralCode: new FormControl(null, Validators.required),
+      address: new FormControl(null, Validators.required),
+      landType: new FormControl(null, Validators.required),
     });
   }
 
