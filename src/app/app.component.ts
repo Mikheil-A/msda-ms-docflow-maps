@@ -6,5 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'my-msda-app';
+  radioButtonValue: number=1;
+
+  changeRadioButton(event) {
+    this.radioButtonValue = event.value;
+  }
 }

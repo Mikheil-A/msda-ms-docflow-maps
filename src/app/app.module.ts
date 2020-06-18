@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatButtonModule} from '@angular/material/button';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+
 import { CadastralEntityComponent } from './cadastral-entity/cadastral-entity.component';
 import { VectorialShapefileComponent } from './vectorial-shapefile/vectorial-shapefile.component';
 import { MarkOnMapComponent } from './mark-on-map/mark-on-map.component';
@@ -25,7 +28,10 @@ import { MarkOnMapComponent } from './mark-on-map/mark-on-map.component';
 
     // angular material
     MatButtonModule,
-    MatRadioModule
+    MatRadioModule,
+    MatFormFieldModule,
+    MatInputModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
