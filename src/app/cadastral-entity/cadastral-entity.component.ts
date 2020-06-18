@@ -20,12 +20,14 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    console.log(222, this.cadastralCodeInputField.nativeElement);
-    this.cadastralCodeInputField.nativeElement.focus();
+    this._listenToCadastralCodeInputField();
+  }
 
+  private _listenToCadastralCodeInputField() {
     fromEvent(this.cadastralCodeInputField.nativeElement, 'keyup')
       .pipe(debounceTime(1000))
       .subscribe(() => {
+        // todo send request here
         console.log(
           'this.cadastralCodeInputField.nativeElement.value',
           this.cadastralCodeInputField.nativeElement.value
