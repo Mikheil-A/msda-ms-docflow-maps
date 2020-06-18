@@ -7,7 +7,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./cadastral-entity.component.scss']
 })
 export class CadastralEntityComponent implements OnInit {
-  cadastralEntity: FormGroup;
+  cadastralEntityForm: FormGroup;
 
   constructor() { }
 
@@ -16,7 +16,7 @@ export class CadastralEntityComponent implements OnInit {
   }
 
   private _initializeForm() {
-    this.cadastralEntity = new FormGroup({
+    this.cadastralEntityForm = new FormGroup({
       'cadastralCode': new FormControl(null, Validators.required),
       'address': new FormControl(null, Validators.required),
       'landType': new FormControl(null, Validators.required)
@@ -24,9 +24,9 @@ export class CadastralEntityComponent implements OnInit {
   }
 
   add() {
-    console.log(this.cadastralEntity.value);
+    console.log(this.cadastralEntityForm.value);
 
-    this.cadastralEntity.controls['address'].setValue('test1');
-    this.cadastralEntity.controls['landType'].setValue('test2');
+    this.cadastralEntityForm.controls['address'].setValue('test1');
+    this.cadastralEntityForm.controls['landType'].setValue('test2');
   }
 }
