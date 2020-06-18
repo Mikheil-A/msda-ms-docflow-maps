@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  radioButtonValue: number=1;
+  radioButtonValue: number = 1;
 
   changeRadioButton(event) {
     this.radioButtonValue = event.value;
