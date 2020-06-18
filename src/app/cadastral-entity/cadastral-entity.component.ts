@@ -25,5 +25,8 @@ export class CadastralEntityComponent implements OnInit {
 
   add() {
     console.log(this.cadastralEntity.value);
+
+    this.cadastralEntity.controls['address'].setValue('test1');
+    this.cadastralEntity.controls['landType'].setValue('test2');
   }
 }

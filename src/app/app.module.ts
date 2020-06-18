@@ -34,7 +34,6 @@ import { MarkOnMapComponent } from './mark-on-map/mark-on-map.component';
     MatRadioModule,
     MatFormFieldModule,
     MatInputModule
-
   ],
   providers: [],
   bootstrap: [AppComponent]
