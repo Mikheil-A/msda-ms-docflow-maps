@@ -1,15 +1,32 @@
 <form [formGroup]="vectorialShapefileForm" (ngSubmit)="add()">
-
   <mat-form-field appearance="outline">
     <mat-label>ატვირთეთ განაცხადის ვექტორული shapefile</mat-label>
-    <input type="text" formControlName="shapefile" matInput placeholder="საკადასტრო კოდი (მაგ.: xx.xx.xx.xxx)" required>
+    <input
+      type="text"
+      formControlName="shapefileName"
+      matInput
+      placeholder="ატვირთეთ განაცხადის ვექტორული shapefile"
+      required
+    />
   </mat-form-field>
+
+  <label>
+    <span>ატვირთეთ განაცხადის ვექტორული shapefile</span>
+    <mat-icon>cloud_upload</mat-icon>
+    <input
+      type="file"
+      style="display: none;"
+      accept="application/zip"
+      formControlName="shapefile"
+      (change)="onShapefileUpload($event)"
+      required
+    />
+  </label>
 
   <mat-form-field appearance="outline">
     <mat-label>მისამართი</mat-label>
-    <input type="text" formControlName="address" matInput placeholder="მისამართი" required>
+    <input type="text" formControlName="address" matInput placeholder="მისამართი" required />
   </mat-form-field>
 
   <button mat-button type="submit">დამატება</button>
-
 </form>
