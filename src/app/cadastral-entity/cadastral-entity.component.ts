@@ -11,7 +11,8 @@ import { debounceTime } from 'rxjs/operators';
 export class CadastralEntityComponent implements OnInit, AfterViewInit {
   cadastralEntityForm: FormGroup;
 
-  @ViewChild('cadastralCodeInputField') cadastralCodeInputField: ElementRef;
+  @ViewChild('cadastralCodeInputField')
+  cadastralCodeInputFieldRef: ElementRef;
 
   constructor() {}
 
@@ -24,13 +25,13 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
   }
 
   private _listenToCadastralCodeInputField() {
-    fromEvent(this.cadastralCodeInputField.nativeElement, 'keyup')
+    fromEvent(this.cadastralCodeInputFieldRef.nativeElement, 'keyup')
       .pipe(debounceTime(1000))
       .subscribe(() => {
         // todo send request here
         console.log(
           'this.cadastralCodeInputField.nativeElement.value',
-          this.cadastralCodeInputField.nativeElement.value
+          this.cadastralCodeInputFieldRef.nativeElement.value
         );
       });
   }
@@ -46,7 +47,11 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
   add() {
     console.log(this.cadastralEntityForm.value);
 
-    this.cadastralEntityForm.controls['address'].setValue('test1');
-    this.cadastralEntityForm.controls['landType'].setValue('test2');
+    this.cadastralEntityForm.controls['address'].setValue(
+      this.cadastralCodeInputFieldRef.nativeElement.value
+    );
+    this.cadastralEntityForm.controls['landType'].setValue(
+      this.cadastralCodeInputFieldRef.nativeElement.value
+    );
   }
 }
