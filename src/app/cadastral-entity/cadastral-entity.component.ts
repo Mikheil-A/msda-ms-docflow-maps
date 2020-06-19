@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { fromEvent } from 'rxjs/internal/observable/fromEvent';
 import { debounceTime } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cadastral-entity',
@@ -14,7 +15,7 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
   @ViewChild('cadastralCodeInputField')
   cadastralCodeInputFieldRef: ElementRef;
 
-  constructor() {}
+  constructor(private _httpClient: HttpClient) {}
 
   ngOnInit(): void {
     this._initializeForm();
@@ -33,6 +34,16 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
           'this.cadastralCodeInputField.nativeElement.value',
           this.cadastralCodeInputFieldRef.nativeElement.value
         );
+
+        this._httpClient
+          .post('/api/tbilisimap-core/api/msdaws/getParcelByCadcode', {
+            data: {
+              cadcode: '03.02.21.440',
+            },
+          })
+          .subscribe((res) => {
+            console.log('res', res);
+          });
       });
   }
 

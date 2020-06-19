@@ -1,0 +1,12 @@
+{
+  "_comment_docs": "'stories proxy · angular/angular-cli Wiki': https://github.com/angular/angular-cli/wiki/stories-proxy",
+  "/api": {
+    "target": "https://urban.tbilisi.gov.ge",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": true,
+    "_comment_changeOrigin": "If you need to access a backend that is not on localhost"
+  }
+}
