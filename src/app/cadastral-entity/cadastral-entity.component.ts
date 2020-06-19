@@ -29,20 +29,19 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
     fromEvent(this.cadastralCodeInputFieldRef.nativeElement, 'keyup')
       .pipe(debounceTime(1000))
       .subscribe(() => {
-        // todo send request here
-        console.log(
-          'this.cadastralCodeInputField.nativeElement.value',
-          this.cadastralCodeInputFieldRef.nativeElement.value
-        );
-
         this._httpClient
           .post('/api/tbilisimap-core/api/msdaws/getParcelByCadcode', {
             data: {
-              cadcode: '03.02.21.440',
+              cadcode: this.cadastralCodeInputFieldRef.nativeElement.value, // example: 03.02.21.440
             },
           })
-          .subscribe((res) => {
-            console.log('res', res);
+          .subscribe((res: any) => {
+            this.cadastralEntityForm.controls['address'].setValue(
+              res.data.property[0].address
+            );
+            this.cadastralEntityForm.controls['landType'].setValue(
+              res.data.property[0].parcelFunction
+            );
           });
       });
   }
@@ -57,12 +56,5 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
 
   add() {
     console.log(this.cadastralEntityForm.value);
-
-    this.cadastralEntityForm.controls['address'].setValue(
-      this.cadastralCodeInputFieldRef.nativeElement.value
-    );
-    this.cadastralEntityForm.controls['landType'].setValue(
-      this.cadastralCodeInputFieldRef.nativeElement.value
-    );
   }
 }
