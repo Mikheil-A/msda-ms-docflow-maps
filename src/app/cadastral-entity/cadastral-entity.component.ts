@@ -25,6 +25,13 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
     this._listenToCadastralCodeInputField();
   }
 
+  private _setReadonlyFieldsValues(res) {
+    this.cadastralEntityForm.controls['address'].setValue(res.data.property[0].address);
+    this.cadastralEntityForm.controls['landType'].setValue(
+      res.data.property[0].parcelFunction
+    );
+  }
+
   private _listenToCadastralCodeInputField() {
     fromEvent(this.cadastralCodeInputFieldRef.nativeElement, 'keyup')
       .pipe(debounceTime(1000))
@@ -32,16 +39,11 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
         this._httpClient
           .post('/api/tbilisimap-core/api/msdaws/getParcelByCadcode', {
             data: {
-              cadcode: this.cadastralCodeInputFieldRef.nativeElement.value, // example: 03.02.21.440
+              cadcode: this.cadastralCodeInputFieldRef.nativeElement.value, // Example of cadastral code: 03.02.21.440
             },
           })
           .subscribe((res: any) => {
-            this.cadastralEntityForm.controls['address'].setValue(
-              res.data.property[0].address
-            );
-            this.cadastralEntityForm.controls['landType'].setValue(
-              res.data.property[0].parcelFunction
-            );
+            this._setReadonlyFieldsValues(res);
           });
       });
   }
@@ -56,5 +58,6 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
 
   add() {
     console.log(this.cadastralEntityForm.value);
+    // todo map should be opened here
   }
 }
