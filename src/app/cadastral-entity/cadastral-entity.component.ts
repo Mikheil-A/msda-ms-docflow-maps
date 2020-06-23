@@ -47,6 +47,7 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
           })
           .subscribe((res: any) => {
             this._setReadonlyFieldsValues(res);
+            console.log('res.data.wktShape', res.data.wktShape);
             this.olMap.drawWkt(res.data.wktShape);
           });
       });
