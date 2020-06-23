@@ -1,20 +1,41 @@
 <form [formGroup]="cadastralEntityForm" (ngSubmit)="add()">
-
   <mat-form-field appearance="outline">
     <mat-label>საკადასტრო კოდი (მაგ.: xx.xx.xx.xxx)</mat-label>
-    <input #cadastralCodeInputField type="text" formControlName="cadastralCode" matInput placeholder="საკადასტრო კოდი (მაგ.: xx.xx.xx.xxx)" required>
+    <input
+      #cadastralCodeInputField
+      type="text"
+      formControlName="cadastralCode"
+      matInput
+      placeholder="საკადასტრო კოდი (მაგ.: xx.xx.xx.xxx)"
+      required
+    />
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>ობიექტის მისამართი</mat-label>
-    <input type="text" formControlName="address" matInput placeholder="ობიექტის მისამართი" required readonly>
+    <input
+      type="text"
+      formControlName="address"
+      matInput
+      placeholder="ობიექტის მისამართი"
+      required
+      readonly
+    />
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>ნაკვეთის ტიპი</mat-label>
-    <input type="text" formControlName="landType" matInput placeholder="ნაკვეთის ტიპი" required readonly>
+    <input
+      type="text"
+      formControlName="landType"
+      matInput
+      placeholder="ნაკვეთის ტიპი"
+      required
+      readonly
+    />
   </mat-form-field>
 
   <button mat-button type="submit">დამატება</button>
-
 </form>
+
+<div id="map" openlayers></div>

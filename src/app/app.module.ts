@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CadastralEntityComponent } from './cadastral-entity/cadastral-entity.component';
 import { VectorialShapefileComponent } from './vectorial-shapefile/vectorial-shapefile.component';
 import { MarkOnMapComponent } from './mark-on-map/mark-on-map.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MarkOnMapComponent } from './mark-on-map/mark-on-map.component';
     CadastralEntityComponent,
     VectorialShapefileComponent,
     MarkOnMapComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,
