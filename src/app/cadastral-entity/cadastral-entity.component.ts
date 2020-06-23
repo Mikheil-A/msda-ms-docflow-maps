@@ -15,6 +15,9 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
   @ViewChild('cadastralCodeInputField')
   cadastralCodeInputFieldRef: ElementRef;
 
+  @ViewChild('olMap')
+  olMap: any;
+
   constructor(private _httpClient: HttpClient) {}
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
           })
           .subscribe((res: any) => {
             this._setReadonlyFieldsValues(res);
+            this.olMap.drawWkt(res.data.wktShape);
           });
       });
   }
