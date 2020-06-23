@@ -40,14 +40,16 @@ export class MapComponent implements OnInit {
     this._initMap();
     this._initMarkersLayer();
     this._initDrawingLayer();
+  }
 
-    // this._addMesaureTool('Polygon', (e: any) => {
-    //   const format = new ol.format.WKT();
-    //   const geometry = e.feature.getGeometry();
-    //   const size = this._map.getSize();
-    //   this._map.getView().fit(geometry.getExtent(), { size });
-    //   const wktGeometry = format.writeGeometry(geometry);
-    // });
+  addOlInteraction() {
+    this._addMesaureTool('Polygon', (e: any) => {
+      const format = new ol.format.WKT();
+      const geometry = e.feature.getGeometry();
+      const size = this._map.getSize();
+      this._map.getView().fit(geometry.getExtent(), { size });
+      const wktGeometry = format.writeGeometry(geometry);
+    });
   }
 
   private _initMarkersLayer() {
@@ -135,5 +137,46 @@ export class MapComponent implements OnInit {
       params: { searchText, page, size, orgId: this.orgId },
       clientToken: this.clientToken,
     });
+  }
+
+  private _addInteraction(type: ol.geom.GeometryType) {
+    this._removeInteraction();
+
+    const source = this._drawingLayer.getSource();
+    this._drawingInteraction = new ol.interaction.Draw({ type, source });
+    this._map.addInteraction(this._drawingInteraction);
+
+    return this._drawingInteraction;
+  }
+
+  private _removeInteraction() {
+    if (!this._drawingInteraction) return;
+
+    this._map.removeInteraction(this._drawingInteraction);
+    this._drawingInteraction = null;
+  }
+
+  removeInteraction() {
+    this._map.removeInteraction(this._drawingInteraction);
+    this._drawingInteraction = null;
+  }
+
+  private _addMesaureTool(
+    type: ol.geom.GeometryType,
+    onDrawEnd: ol.EventsListenerFunctionType
+  ) {
+    const source = this._drawingLayer.getSource();
+
+    source.clear();
+
+    const interaction = this._addInteraction(type);
+
+    interaction.on('drawstart', () => {
+      source.clear();
+    });
+
+    interaction.on('drawend', onDrawEnd);
+
+    return interaction;
   }
 }

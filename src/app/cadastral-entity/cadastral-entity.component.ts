@@ -62,6 +62,9 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
 
   add() {
     console.log(this.cadastralEntityForm.value);
-    // todo map should be opened here
+  }
+
+  addOlInteraction() {
+    this.olMap.addOlInteraction();
   }
 }
