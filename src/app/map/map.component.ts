@@ -28,8 +28,6 @@ export class MapComponent implements OnInit {
   private _drawingLayer: ol.layer.Vector;
   private _drawingInteraction: ol.interaction.Draw;
 
-  searchResult$: Observable<any>;
-
   get map() {
     return this._map;
   }
@@ -124,19 +122,6 @@ export class MapComponent implements OnInit {
       const size = this._map.getSize();
       this._map.getView().fit(geometry.getExtent(), { size });
     }
-  }
-
-  doSearch(searchText: string, page = 0, size = 20) {
-    this.searchResult$ = null;
-
-    if (searchText.length < 3) {
-      return;
-    }
-
-    this.searchResult$ = this._http.post('/tbilisimap-core/api/mapsearchws/searchAll', {
-      params: { searchText, page, size, orgId: this.orgId },
-      clientToken: this.clientToken,
-    });
   }
 
   private _addInteraction(type: ol.geom.GeometryType) {
