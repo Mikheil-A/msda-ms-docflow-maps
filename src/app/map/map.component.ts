@@ -7,7 +7,6 @@ import {
   ElementRef,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 
 import * as ol from 'openlayers';
 
@@ -47,6 +46,8 @@ export class MapComponent implements OnInit {
       const size = this._map.getSize();
       this._map.getView().fit(geometry.getExtent(), { size });
       const wktGeometry = format.writeGeometry(geometry);
+
+      console.log('wktGeometry', wktGeometry); // post this string somewhere
     });
   }
 
