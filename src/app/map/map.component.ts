@@ -102,6 +102,7 @@ export class MapComponent implements OnInit {
   }
 
   drawWkt(geometryWkt: string, clear = true) {
+    console.log('geometryWkt', geometryWkt);
     if (!geometryWkt) return;
 
     const source = this._drawingLayer.getSource();

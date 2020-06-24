@@ -35,14 +35,25 @@ export class VectorialShapefileComponent implements OnInit {
   }
 
   convert(input_json) {
-    //convert the json-input to WKT
-    var wkt_str =
-      'POLYGON((' +
-      input_json.coordinates.map((ring, index) => {
-        console.log('ring', ring, ring[0], ring[1]);
-        return ring[0] + ' ' + ring[1];
-      }) +
-      '))';
+    // convert the json-input to WKT
+    // "JavaScript: Convert GeoJSON Polygon to WKT - bl.ocks.org": http://bl.ocks.org/tyrasd/829d090e2400fd1ca59e9b2523847d28, https://gist.github.com/tyrasd/829d090e2400fd1ca59e9b2523847d28
+    // var wkt_str =
+    //   'POLYGON((' +
+    //   input_json.coordinates.map((ring, index) => {
+    //     console.log('ring', ring, ring[0], ring[1]);
+    //     return ring[0] + ' ' + ring[1];
+    //   }) +
+    //   ')';
+
+    // convert the json-input to WKT
+    // "JavaScript: Convert GeoJSON to WKT I": https://gist.github.com/milkbread/6991519
+    var wkt_str = 'POLYGON((';
+    input_json.coordinates.forEach(function (p, i) {
+      //	console.log(p)
+      if (i < input_json.coordinates.length - 1)
+        wkt_str = wkt_str + p[0] + ' ' + p[1] + ', ';
+      else wkt_str = wkt_str + p[0] + ' ' + p[1] + '))';
+    });
 
     console.log('wkt_str', wkt_str);
     return wkt_str;
