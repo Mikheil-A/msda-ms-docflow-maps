@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
+import * as ol from 'openlayers';
+
 declare var shp: any;
 
 @Component({
@@ -67,14 +69,23 @@ export class VectorialShapefileComponent implements OnInit {
     let reader = new FileReader();
     reader.addEventListener('load', (event) => {
       shp(event.target.result).then((data) => {
-        console.log('data', data); // you should stirgigy this. es unda gastringo
-        const geoJson = {
+        console.log('data>>>>>', data); // you should stirgigy this. es unda gastringo
+        /*const geoJson = {
           type: data.features[0].geometry.type,
           coordinates: [...data.features[0].geometry.coordinates[0]],
         };
         console.log('>>>>>>', geoJson);
         const wktText = this.convert(geoJson);
-        this.olMap.drawWkt(wktText);
+        this.olMap.drawWkt(wktText);*/
+
+        const geojson_format = new ol.format.GeoJSON();
+        console.log('geojson_format>>', geojson_format);
+        let testFeature = geojson_format.readFeature(JSON.stringify(data));
+        console.log('testFeature', testFeature);
+        const wkt = new ol.format.WKT({});
+        const out = wkt.writeFeature(testFeature);
+        console.log('out', out);
+        this.olMap.drawWkt(out);
       });
     });
     reader.readAsArrayBuffer(e.target.files[0]);
