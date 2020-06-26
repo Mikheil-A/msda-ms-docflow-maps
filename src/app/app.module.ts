@@ -12,6 +12,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { CadastralEntityComponent } from './cadastral-entity/cadastral-entity.component';
 import { VectorialShapefileComponent } from './vectorial-shapefile/vectorial-shapefile.component';
@@ -40,6 +41,7 @@ import { MapComponent } from './map/map.component';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -13,7 +13,11 @@ export class MarkOnMapComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addOlInteraction() {
-    this.olMap.addOlInteraction();
+  toggleInteraction(event) {
+    if (event.checked) {
+      this.olMap.addOlInteraction();
+    } else {
+      this.olMap.removeInteraction();
+    }
   }
 }

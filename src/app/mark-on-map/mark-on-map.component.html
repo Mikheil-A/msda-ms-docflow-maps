@@ -1,6 +1,7 @@
-<button (click)="addOlInteraction()">add interaction</button>
-<button (click)="olMap.removeInteraction()">remove interaction</button>
+<div id="mark-on-map-container">
+  <mat-slide-toggle (change)="toggleInteraction($event)">Interaction</mat-slide-toggle>
 
-<div id="ol-map-container">
-  <div #olMap id="map" openlayers></div>
+  <div id="ol-map-container">
+    <div #olMap id="map" openlayers></div>
+  </div>
 </div>
