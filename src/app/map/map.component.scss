@@ -58,3 +58,7 @@
 //    outline: none;
 //  }
 //}
+
+::ng-deep .ol-overlaycontainer-stopevent {
+  display: none;
+}
