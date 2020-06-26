@@ -5,27 +5,39 @@ import {
   Output,
   EventEmitter,
   ElementRef,
+  AfterViewInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import * as ol from 'openlayers';
+import Map from 'ol/Map';
+import VectorLayer from 'ol/layer/Vector';
+import Tile from 'ol/layer/Tile';
+import { Vector } from 'ol/source';
+import { Draw, Modify, Snap } from 'ol/interaction';
+import OSM from 'ol/source/OSM';
+import WKT from 'ol/format/WKT';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import GeometryType from 'ol/geom/GeometryType';
+import * as ol from 'ol/proj';
+import View from 'ol/View';
 
 @Component({
   selector: '[openlayers]',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements AfterViewInit {
   @Input() orgId = 1;
   @Input() clientToken = 'aceeb1c1-b378-439e-821a-843abcabaafc';
-  @Input() center = ol.proj.transform([44.7805792, 41.7128489], 'EPSG:4326', 'EPSG:3857');
+  @Input() center = ol.transform([44.7805792, 41.7128489], 'EPSG:4326', 'EPSG:3857');
 
   @Output() featureClick = new EventEmitter();
 
-  private _map: ol.Map;
-  private _markersLayer: ol.layer.Vector;
-  private _drawingLayer: ol.layer.Vector;
-  private _drawingInteraction: ol.interaction.Draw;
+  private _map: Map;
+  private _markersLayer: VectorLayer;
+  private _drawingLayer: VectorLayer;
+  private _drawingInteraction: Draw;
 
   get map() {
     return this._map;
@@ -33,7 +45,7 @@ export class MapComponent implements OnInit {
 
   constructor(private _http: HttpClient, private _elementRef: ElementRef) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this._initMap();
     this._initMarkersLayer();
     this._initDrawingLayer();
@@ -41,7 +53,7 @@ export class MapComponent implements OnInit {
 
   addOlInteraction() {
     this._addMesaureTool('Polygon', (e: any) => {
-      const format = new ol.format.WKT();
+      const format = new WKT();
       const geometry = e.feature.getGeometry();
       const size = this._map.getSize();
       this._map.getView().fit(geometry.getExtent(), { size });
@@ -52,32 +64,34 @@ export class MapComponent implements OnInit {
   }
 
   private _initMarkersLayer() {
-    this._markersLayer = new ol.layer.Vector({
+    this._markersLayer = new VectorLayer({
       zIndex: 2,
-      source: new ol.source.Vector(),
+      source: new Vector(),
     });
 
     this._map.addLayer(this._markersLayer);
   }
 
   private _initDrawingLayer() {
-    this._drawingLayer = new ol.layer.Vector({
+    this._drawingLayer = new VectorLayer({
       zIndex: 1,
-      source: new ol.source.Vector({ wrapX: false }),
+      source: new Vector({ wrapX: false }),
     });
 
     this._map.addLayer(this._drawingLayer);
   }
 
   private _initMap() {
-    this._map = new ol.Map({
+    this._map = new Map({
       target: this._elementRef.nativeElement,
-      view: new ol.View({
+      view: new View({
         zoom: 14,
         maxZoom: 22,
         center: this.center,
       }),
     });
+
+    console.log(333, this._map, this._elementRef.nativeElement);
 
     this._http
       .post('/tbilisimap-core/api/managelayersws/getLayersInGroups', {
@@ -88,9 +102,9 @@ export class MapComponent implements OnInit {
         Array.prototype.forEach.call(res.data[0].lrs, (lr) => {
           if (!lr.sourceUrl) return;
           this.map.addLayer(
-            new ol.layer.Tile({
+            new Tile({
               visible: Boolean(lr.isSelected),
-              source: new ol.source.OSM({
+              source: new OSM({
                 url: lr.sourceUrl.replace(/\$(\{[xyz]\})/g, '$1'),
                 maxZoom: lr.paramsJson.numZoomLevels,
                 crossOrigin: null,
@@ -111,13 +125,13 @@ export class MapComponent implements OnInit {
       source.clear();
     }
 
-    const format = new ol.format.WKT();
+    const format = new WKT();
     const geometry = format.readGeometry(geometryWkt.replace(/,\)$/g, ')'));
-    const feature = new ol.Feature({ geometry });
+    const feature = new Feature({ geometry });
 
     source.addFeature(feature);
 
-    if (geometry instanceof ol.geom.Point) {
+    if (geometry instanceof Point) {
       const center = geometry.getCoordinates();
       this._map.getView().animate({ center, zoom: 18 });
     } else {
@@ -126,11 +140,11 @@ export class MapComponent implements OnInit {
     }
   }
 
-  private _addInteraction(type: ol.geom.GeometryType) {
+  private _addInteraction(type: GeometryType) {
     this._removeInteraction();
 
     const source = this._drawingLayer.getSource();
-    this._drawingInteraction = new ol.interaction.Draw({ type, source });
+    this._drawingInteraction = new Draw({ type, source });
     this._map.addInteraction(this._drawingInteraction);
 
     return this._drawingInteraction;
@@ -148,10 +162,7 @@ export class MapComponent implements OnInit {
     this._drawingInteraction = null;
   }
 
-  private _addMesaureTool(
-    type: ol.geom.GeometryType,
-    onDrawEnd: ol.EventsListenerFunctionType
-  ) {
+  private _addMesaureTool(type: any, onDrawEnd: any) {
     const source = this._drawingLayer.getSource();
 
     source.clear();

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import * as ol from 'openlayers';
+import WKT from 'ol/format/WKT';
+import GeoJSON from 'ol/format/GeoJSON';
 
 declare var shp: any;
 
@@ -68,8 +68,8 @@ export class VectorialShapefileComponent implements OnInit {
   onShapefileUpload(e) {
     let reader = new FileReader();
     reader.addEventListener('load', (event) => {
-      shp(event.target.result).then((data) => {
-        console.log('data>>>>>', data); // you should stirgigy this. es unda gastringo
+      shp(event.target.result).then((geoJson) => {
+        console.log('geoJson: ', geoJson); // you should stirgigy this. es unda gastringo
         /*const geoJson = {
           type: data.features[0].geometry.type,
           coordinates: [...data.features[0].geometry.coordinates[0]],
@@ -78,12 +78,12 @@ export class VectorialShapefileComponent implements OnInit {
         const wktText = this.convert(geoJson);
         this.olMap.drawWkt(wktText);*/
 
-        const geojson_format = new ol.format.GeoJSON();
-        console.log('geojson_format>>', geojson_format);
-        let testFeature = geojson_format.readFeature(JSON.stringify(data));
-        console.log('testFeature', testFeature);
-        const wkt = new ol.format.WKT({});
-        const out = wkt.writeFeature(testFeature);
+        const options = {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857',
+        };
+        const features = new GeoJSON().readFeatures(geoJson, options);
+        const out = new WKT().writeFeatures(features);
         console.log('out', out);
         this.olMap.drawWkt(out);
       });
