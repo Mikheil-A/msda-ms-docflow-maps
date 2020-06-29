@@ -47,13 +47,7 @@ export class CadastralEntityComponent implements OnInit, AfterViewInit {
           })
           .subscribe((res: any) => {
             this._setReadonlyFieldsValues(res);
-            console.log('res.data.wktShape', res.data.wktShape);
             this.olMap.drawWkt(res.data.wktShape);
-
-            // generated from aslan.zip
-            // this.olMap.drawWkt(
-            //   'POLYGON((44.7103970229938 41.74357887213198, 44.71125439968339 41.74397424501405, 44.71235318358756 41.74375537057794, 44.71336598269435 41.74355056989313, 44.71346573340633 41.74258565407756, 44.711415107384326 41.74219445629645, 44.71064868500101 41.7428073744982, 44.7103970229938 41.74357887213198))'
-            // );
           });
       });
   }

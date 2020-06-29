@@ -1,5 +1,8 @@
 <div id="mark-on-map-container">
-  <mat-slide-toggle (change)="toggleInteraction($event)">Interaction</mat-slide-toggle>
+  <mat-slide-toggle (change)="toggleInteraction($event)">
+    <span *ngIf="!isInteractionOn">მონიშვნის გააქტიურება</span>
+    <span *ngIf="isInteractionOn">მონიშვნის გაუქმება</span>
+  </mat-slide-toggle>
 
   <div class="ol-map-container">
     <div #olMap class="ol-map" openlayers></div>

@@ -1,0 +1,19 @@
+#app-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  mat-radio-group {
+    align-self: center;
+    margin-bottom: 30px;
+
+    mat-radio-button:nth-child(2) {
+      margin: 0 30px;
+    }
+  }
+}

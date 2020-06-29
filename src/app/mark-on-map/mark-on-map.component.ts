@@ -6,6 +6,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./mark-on-map.component.scss'],
 })
 export class MarkOnMapComponent implements OnInit {
+  isInteractionOn: boolean = false;
+
   @ViewChild('olMap')
   olMap: any;
 
@@ -14,6 +16,7 @@ export class MarkOnMapComponent implements OnInit {
   ngOnInit(): void {}
 
   toggleInteraction(event) {
+    this.isInteractionOn = event.checked;
     if (event.checked) {
       this.olMap.addOlInteraction();
     } else {
